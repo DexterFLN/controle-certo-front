@@ -1,0 +1,69 @@
+.cepContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 100%;
+}
+
+.cepButton {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #f0f0f0;
+    border: none;
+    cursor: pointer;
+    margin-left: 10px;
+    text-decoration: none;
+    border-radius: 0.4rem;
+    box-sizing: border-box;
+    transition: 0.1s;
+}
+
+.cepContainer > *:first-child {
+    flex: 1;
+    margin-right: 10px;
+}
+
+.cepButtom:hover,
+.cepButtom:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px #fea, 0 0 0 4px #fb1;
+    border-radius: 4px;
+}
+
+.termsContainer {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.termsContainer input[type="checkbox"] {
+    width: 25px;
+    height: 25px;
+    margin-right: 10px;
+}
+
+.termsButton {
+    background: none;
+    border: none;
+    color: blue;
+    text-decoration: underline;
+    cursor: pointer;
+    padding: 0;
+    font-size: 1em;
+    margin-left: 5px;
+
+}
+
+.termsLabel {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+
+

@@ -1,0 +1,32 @@
+.login {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  min-height: 100vh;
+  gap: 2rem;
+}
+
+.login::before {
+  display: block;
+  content: '';
+  background: url('../../Assets/fundo_tela_inicio.jpg') no-repeat center center;
+  background-size: cover;
+  height: 100%; 
+}
+
+.forms {
+  max-width: 30rem;
+  padding: 2rem;
+}
+
+@media (max-width: 40rem) {
+  .login {
+    grid-template-columns: 1fr;
+  }
+  .login::before {
+    display: none;
+  }
+  .forms {
+    max-width: 100%;
+  }
+}
