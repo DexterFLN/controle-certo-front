@@ -1,0 +1,51 @@
+.header {
+  box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.1);
+  padding: .5rem 0;
+  position: fixed;
+  width: 100%;
+  z-index: 100;
+  background: white;
+  top: 0px;
+}
+
+.nav {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 3rem;
+}
+
+.logo {
+  padding: 0.5rem 0;
+}
+
+.login {
+  color: #333;
+}
+
+.login::after {
+  content: '';
+  display: inline-block;
+  width: 14px;
+  height: 17px;
+  background: url('../Assets/usuario.svg') no-repeat center center;
+  margin-left: 0.5rem;
+  position: relative;
+  top: -1px;
+}
+
+
+.loginAdmin {
+  color: #333;
+}
+
+.loginAdmin::after {
+  content: '';
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background: url('../Assets/IconsHeader/admin.svg') no-repeat center center;
+  margin-left: 0.5rem;
+  position: relative;
+  top: -1px;
+}
