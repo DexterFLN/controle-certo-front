@@ -1,0 +1,116 @@
+.monthcontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    position: relative;
+}
+
+.monthcircleContainer {
+    position: relative;
+}
+
+.monthcircle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #333 50%, #fb1 50%);
+    transition: transform 0.5s ease-in-out;
+    position: relative;
+}
+
+.monthcircle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.monthcircletext {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    pointer-events: none;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.icon {
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+    transition: transform 0.3s ease, fill 0.3s ease;
+    margin: 0 1rem;
+}
+
+.icon:hover {
+    transform: scale(1.5);
+    fill: red;
+}
+
+
+.monthcontainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    position: relative;
+}
+
+.monthcircleContainer {
+    position: relative;
+}
+
+.monthcircle {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background: conic-gradient(from 0deg, #333 50%, #fb1 50%);
+    transition: transform 0.5s ease-in-out;
+    position: relative;
+}
+
+.monthcircle::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 120px;
+    height: 120px;
+    background-color: white;
+    border-radius: 50%;
+}
+
+.monthcircletext {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+    pointer-events: none;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.icon {
+    cursor: pointer;
+    width: 80px;
+    height: 80px;
+    transition: transform 0.3s ease, fill 0.3s ease;
+    margin: 0 1rem;
+}
+
+.icon:hover {
+    transform: scale(1.5);
+    fill: red;
+}

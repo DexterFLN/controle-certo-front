@@ -152,6 +152,20 @@ export function GET_MONTHLY_BUDGET(month, year) {
     };
 }
 
+export function GET_LAST_MONTHLY_BUDGET() {
+    return {
+        url: 'http://localhost:8082/v1/monthly/last-month',
+        options: {
+            method: 'GET',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: 'Bearer ' + window.localStorage.getItem('token')
+            },
+        },
+    };
+}
+
+
 export function POST_EXPENSE_USER(requestBody) {
     return {
         url: 'http://localhost:8082/v1/expense',
