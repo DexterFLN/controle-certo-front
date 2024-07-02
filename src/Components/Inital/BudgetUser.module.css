@@ -1,0 +1,56 @@
+
+.item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.item p {
+    background: #eee;
+    border-radius: 0.4rem;
+    height: 5rem;
+    width: 10rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid transparent;
+    transition: 0.1s;
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 0.9rem;
+    margin: 0 1rem;
+}
+
+.icon {
+    cursor: pointer;
+}
+.icon:hover,
+.icon:focus{
+    background: white;
+    box-shadow: 0 0 0 3px #eee;
+    border-color: #333;
+    outline: none;
+}
+
+.monthCurrent {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+    margin-bottom: 2rem;
+    height: 11rem;
+    align-items: center;
+    border-radius: 4px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.monthCurrentContainer {
+    grid-column: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+

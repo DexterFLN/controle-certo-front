@@ -36,7 +36,8 @@
     "react-paginate": "^8.2.0",
     "react-router-dom": "^6.23.1",
     "react-table": "^7.8.0",
-    "remask": "^1.2.2"
+    "remask": "^1.2.2",
+    "vite-plugin-svgr": "^0.2.0"
   },
   "devDependencies": {
     "@types/react": "^18.2.66",

@@ -1,0 +1,57 @@
+.budgetContainer {
+    margin-top: 2rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.budgetInfo, .expenseChart, .expenseItems {
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.fieldWrapper {
+    border: 1px solid #eee;
+    padding: 10px;
+    border-radius: 5px;
+    background: #f9f9f9;
+    margin-bottom: 10px;
+}
+
+.fieldHeader {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.label {
+    font-weight: bold;
+}
+
+.subtitle {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    line-height: 1;
+    font-size: 2rem;
+}
+
+.subtitle::after {
+    content: '';
+    display: block;
+    background: #ddd;
+    height: 0.5rem;
+    width: 3rem;
+    border-radius: 0.2rem;
+}
+
+.expenseItems {
+    grid-column: 1 / -1;
+}
+
+.deleteBudgetButton {
+    position: absolute;
+    bottom: 20px;
+    right: 20px;
+}
