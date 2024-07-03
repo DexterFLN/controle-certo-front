@@ -1,0 +1,168 @@
+.investmentConcepts {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    gap: 20px;
+}
+
+.investmentTypes {
+    border: 1px solid #ccc;
+    padding: 20px;
+    cursor: pointer;
+    background: #f7f7f7;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.investmentTypes ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.investmentTypes ul li {
+    margin-bottom: 10px;
+    padding: 10px;
+    background-color: #e0e0e0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    font-weight: bold;
+}
+
+.investmentTypes ul li:hover {
+    background-color: #fb1;
+    color: #764701;
+}
+
+.investmentTypes ul li.selected {
+    background-color: #fb1;
+    color: #764701;
+}
+
+.investmentText {
+    border: 1px solid #ccc;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.conceptText {
+    height: 100%;
+    overflow-y: auto;
+}
+
+.summary ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.summary ul li {
+    margin-bottom: 10px;
+}
+
+.summary ul li a {
+    cursor: pointer;
+    color: #333;
+    text-decoration: underline;
+}
+
+.summary ul li a:hover {
+    color: #666;
+}
+
+h2 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+}
+
+h3 {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+    cursor: pointer;
+    color: #333;
+    text-decoration: underline;
+}
+
+h3:hover {
+    color: #666;
+}
+
+.investmentImage {
+    max-width: 150px;
+    display: block;
+    margin: 10px auto;
+    border-radius: 5px;
+}
+
+.investmentConcepts h2,
+.investmentText h2 {
+    font-family: var(--type-second);
+    line-height: 1;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.investmentConcepts h2::after,
+.investmentText h2::after {
+    content: '';
+    display: block;
+    background: #ddd;
+    height: 0.5rem;
+    width: 3rem;
+    border-radius: 0.2rem;
+    margin-top: 5px;
+}
+
+.noConcept {
+    padding: 20px;
+    background-color: #f0f0f0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.noConcept p {
+    margin: 0;
+    color: #666;
+}
+
+@media (max-width: 40rem) {
+    .investmentConcepts {
+        display: block;
+    }
+
+    .investmentTypes,
+    .investmentText {
+        width: 100%;
+        margin-bottom: 20px;
+    }
+}
+
+/* Estilos para os botões */
+.button {
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: bold;
+    font-family: var(--type-first);
+    cursor: pointer;
+    border: none;
+    border-radius: 0.4rem;
+    background: #fb1;
+    color: #764701;
+    padding: .8rem 1.2rem;
+    box-sizing: border-box;
+    transition: 0.1s;
+    min-width: 8rem;
+}
+
+.button:hover,
+.button:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px #fea, 0 0 0 4px #fb1;
+}
+
+.button:disabled {
+    opacity: 0.5;
+    cursor: wait;
+}
