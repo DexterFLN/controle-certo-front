@@ -15,8 +15,11 @@ import Button from "../Forms/Button.jsx";
 import GamificationCard from "../GamificationCard/GamificationCard.jsx";
 import ExpenseEmpty from './Home/ExpenseEmpty.jsx'
 import {useNavigate} from 'react-router-dom';
+import {UserContext} from '../../UserContext';
+import {getAvatarDetails} from '../Helper/getAvatarUrl';
 
 const HomeApp = () => {
+    const {data} = React.useContext(UserContext);
     const navigate = useNavigate();
     const {error, loading, request} = useFetch();
     const {error: errorExpense, loading: loadingExpense, request: requestExpense} = useFetch();
@@ -30,6 +33,7 @@ const HomeApp = () => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [categoryIdToDelete, setCategoryIdToDelete] = useState(null);
+    const {avatarUrl, message} = getAvatarDetails(data.usuario_level);
 
     const handleDateChange = (date) => {
         setCurrentDate(date);
@@ -204,16 +208,26 @@ const HomeApp = () => {
     if (errorMonthly) return <div>Erro: {errorMonthly}</div>;
 
 
+    const getMotivationalMessage = (level) => {
+        if (level < 3) {
+            return "Parabéns por seus esforços! Continue economizando e logo você atingirá a próxima meta.";
+        } else if (level < 5) {
+            return "Incrível! Você está mostrando grande disciplina financeira. Continue assim e verá resultados ainda maiores.";
+        } else {
+            return "Você é uma inspiração! Sua habilidade de economizar está te levando longe. Continue firme e colha os frutos do seu trabalho!";
+        }
+    };
+
     return (
         <section>
             <Head title="Home"/>
             <div className={styles.monthCurrent}>
                 <div className={styles.lvlBarContainer}>
                     <GamificationCard
-                        avatarUrl="https://i.imgur.com/6TgFVRV.png"
-                        currentLevel={5}
-                        progress={70}
-                        message="Continue assim! Você está quase no próximo nível."
+                        avatarUrl={avatarUrl}
+                        currentLevel={data.usuario_level == null ? 0 : data.usuario_level}
+                        progress={data.usuario_experiencia}
+                        message={message}
                     />
                 </div>
                 <div className={styles.monthCurrentContainer}>
