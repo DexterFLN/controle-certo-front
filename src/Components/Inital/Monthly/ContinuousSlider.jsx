@@ -37,7 +37,6 @@ const ContinuousSlider = ({formattedDate}) => {
     const [errorSelectedCategory, setErrorSelectedCategory] = useState(false);
     const {request: requestDelete} = useFetch();
     const {status: statusBudget, request: requestBudget} = useFetch();
-    // const {request: requestLastBudget} = useFetch();
     const {request: requestCategoryPost} = useFetch();
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
@@ -56,7 +55,7 @@ const ContinuousSlider = ({formattedDate}) => {
     }
 
     const handleGetLastBudget = async () => {
-        const { url, options } = GET_LAST_MONTHLY_BUDGET();
+        const {url, options} = GET_LAST_MONTHLY_BUDGET();
         try {
             const response = await fetch(url, options);
             if (response.ok) {
@@ -220,6 +219,7 @@ const ContinuousSlider = ({formattedDate}) => {
 
         setErrorMonthlyIncome(false);
         setErrorSliderValues(false);
+        setExibirMensagemErro(false);
 
         if (monthlyIncome <= 0) {
             setErrorMonthlyIncome(true);
@@ -230,6 +230,15 @@ const ContinuousSlider = ({formattedDate}) => {
 
         if (sliderValues.length === 0 || sliderValues.every(slider => slider.valor === 0)) {
             setErrorSliderValues(true);
+            setExibirMensagemErro(true);
+            setTimeout(() => setExibirMensagemErro(false), 5000);
+            setTimeout(() => setErrorSliderValues(false), 5000);
+            setLoadingCreateBudget(false);
+            return;
+        }
+
+        if (valueAvailable < 0) {
+            setExibirMensagemErro(true);
             setLoadingCreateBudget(false);
             return;
         }
@@ -283,11 +292,9 @@ const ContinuousSlider = ({formattedDate}) => {
 
         setRendaDisponivelNegativa(novoRendaDisponivel < 0);
 
-        setExibirMensagemErro(novoRendaDisponivel < 0);
-
         const timeout = setTimeout(() => {
             setExibirMensagemErro(false);
-        }, 3000);
+        }, 5000);
 
         return () => clearTimeout(timeout);
     }, [sliderValues, monthlyIncome]);
@@ -338,7 +345,7 @@ const ContinuousSlider = ({formattedDate}) => {
                                 <label>Renda disponível:</label>
                                 <span className={styles.budgetSpan}>R$ {valueAvailable.toFixed(2)}</span>
                             </div>
-                            {exibirMensagemErro && (<Error error="O valor não pode ser negativo!"/>)}
+
                             <div className={styles.incomeCompromised}>
                                 <MoneyDown className={styles.icon}/>
                                 <label>Renda comprometida:</label>
@@ -414,9 +421,12 @@ const ContinuousSlider = ({formattedDate}) => {
                                 <div className={styles.containerButtonBudget}>
                                     <Button className={styles.buttonBudget} onClick={handleSubmit}>Enviar Orçamento
                                         mensal</Button>
-                                    {errorSliderValues &&
-                                        <Error error="Adicione categorias com valores maiores que zero"/>}
                                 </div>
+                                {exibirMensagemErro && valueAvailable < 0 && (
+                                    <Error error="Para continuar com seu planejamento mensal, a renda disponível não pode ser negativa. Por favor, ajuste os valores."/>)}
+                                {errorSliderValues &&
+                                    <Error
+                                        error=" Por favor, adicione pelo menos uma categoria com um valor maior que zero para continuar com seu planejamento mensal."/>}
                             </div>
                         </div>
                     </div>
