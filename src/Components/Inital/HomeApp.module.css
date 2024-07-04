@@ -1,0 +1,121 @@
+.graph {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    justify-items: center;
+}
+
+
+.graphItem {
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    width: 100%;
+}
+
+.currentMonth {
+    /*grid-column: 1 / -1;*/
+    /*padding: 0;*/
+    /*font-size: 2rem;*/
+    /*font-family: Georgia, 'Times New Roman', Times, serif;*/
+}
+
+@media (max-width: 40rem) {
+    .graph {
+        grid-template-columns: 1fr;
+    }
+
+    .currentMonth {
+        grid-column: 1;
+        text-align: center;
+    }
+}
+
+
+.icon {
+    cursor: pointer;
+    width: 40px;
+    height: 40px;
+    transition: transform 0.3s ease, fill 0.3s ease;
+}
+
+.icon:hover {
+    transform: scale(1.5);
+    fill: red;
+}
+
+.formattedDate {
+    margin: 0 1rem;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    color: #333;
+    pointer-events: none;
+}
+
+.tableExpense {
+    display: grid;
+    grid-column: 1 / -1;
+    width: 100%;
+    margin: 2rem 1rem;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+.tableExpenseItem {
+    margin: 1rem 2rem;
+}
+
+.subtitle {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    line-height: 1;
+    font-size: 2rem;
+    margin: 2rem 1rem;
+}
+
+.subtitle::after {
+    content: '';
+    display: block;
+    background: #ddd;
+    height: 0.5rem;
+    width: 3rem;
+    border-radius: 0.2rem;
+}
+
+.monthCurrent {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    width: 100%;
+    margin-bottom: 2rem;
+    height: 11rem;
+    align-items: center;
+    border-radius: 4px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    position: relative;
+}
+
+.monthCurrentContainer {
+    grid-column: 2;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+}
+
+.lvlBarContainer {
+    grid-column: 1;
+}
+
+.emptyExpense {
+    grid-column: 1/-1;
+}
+
+.buttonExpenseAdd {
+    display: grid;
+    justify-items: center;
+    align-items: center;
+    top: -15px;
+}
+
+.buttonExpenseAdd span {
+    margin: 1rem 1rem;
+    font-style: italic;
+    padding: 20px;
+}

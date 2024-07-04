@@ -39,7 +39,6 @@
 }
 
 .nav :global(a.active) svg * {
-  /*stroke: #fb1 !important; /* Use !important se necessário para garantir a aplicação */
   fill: #fb1 !important;
 }
 
