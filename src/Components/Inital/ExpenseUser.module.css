@@ -1,0 +1,141 @@
+.expensePost {
+    display: grid;
+    gap: 20px;
+    padding: 20px;
+    background: #fff;
+    border-radius: 5px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.form {
+    display: grid;
+    gap: 20px;
+}
+
+.formGroup {
+    display: grid;
+    gap: 10px;
+}
+
+.formRow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.select {
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    width: 100%;
+    font-size: 1.2rem;
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
+
+.radioContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    align-items: start;
+    margin-top: 2rem;
+}
+
+.radioBox {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background-color: white;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+    transition: background-color 0.3s, border-color 0.3s;
+}
+
+.radioBox:hover {
+    background-color: #f5f5f5;
+}
+
+.radioBox.selected {
+    background-color: #e0e0e0;
+    border-color: #000;
+}
+
+.wrapper {
+    margin-bottom: 1rem;
+}
+
+.input {
+    border: 1px solid #eee;
+    display: block;
+    width: 100%;
+    font-size: 1rem;
+    padding: 0.8rem;
+    border-radius: 0.4rem;
+    background: #eee;
+    transition: 0.2s;
+}
+
+.input:focus,
+.input:hover {
+    outline: none;
+    border-color: #fb1;
+    background: white;
+    box-shadow: 0 0 0 3px #fea;
+}
+
+.error {
+    color: #f31;
+    font-size: 0.875rem;
+    margin-top: 0.25rem;
+}
+
+.description {
+    margin-top: 1rem;
+    font-size: 0.875rem;
+    color: #555;
+}
+
+.typeContainer {
+    border-radius: 5px;
+}
+
+.infoIcon {
+    cursor: pointer;
+    color: #555;
+}
+
+.infoBox {
+    margin-top: 10px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 10px;
+    width: 200px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.subtitle {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-size: 2rem;
+}
+
+.subtitle::after {
+    content: '';
+    display: block;
+    background: #ddd;
+    height: 0.5rem;
+    width: 3rem;
+    border-radius: 0.2rem;
+}
+
+.formGroup label {
+    font-size: 17px;
+}
+
+.radioButtonText {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+}
