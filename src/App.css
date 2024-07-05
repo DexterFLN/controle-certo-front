@@ -80,7 +80,7 @@ button, input {
 .App {
   display: flex;
   flex-direction: column;
-  min-height: calc(70vh + 10rem);
+  min-height: calc(100vh + 10rem);
 }
 
 .AppBody {
