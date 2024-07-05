@@ -207,17 +207,6 @@ const HomeApp = () => {
     if (error) return <div>Erro: {error}</div>;
     if (errorMonthly) return <div>Erro: {errorMonthly}</div>;
 
-
-    const getMotivationalMessage = (level) => {
-        if (level < 3) {
-            return "Parabéns por seus esforços! Continue economizando e logo você atingirá a próxima meta.";
-        } else if (level < 5) {
-            return "Incrível! Você está mostrando grande disciplina financeira. Continue assim e verá resultados ainda maiores.";
-        } else {
-            return "Você é uma inspiração! Sua habilidade de economizar está te levando longe. Continue firme e colha os frutos do seu trabalho!";
-        }
-    };
-
     return (
         <section>
             <Head title="Home"/>

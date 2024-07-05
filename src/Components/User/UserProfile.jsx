@@ -59,30 +59,7 @@ const UserProfile = () => {
             }
         }
 
-        if (editableField === 'usuario_email') {
-            validate = usuarioEmail.validate();
-            if (!validate) {
-                setError(usuarioEmail.error);
-            }
-        }
-
-        if (editableField === 'usuario_telefone') {
-            validate = usuarioTelefone.validate();
-            if (!validate) {
-                setError(usuarioTelefone.error);
-            }
-        }
-
-        if (editableField === 'usuario_nome') {
-            validate = usuarioNome.validate();
-            if (!validate) {
-                setError(usuarioNome.error);
-            }
-        }
-
-        if (validate) {
-            updateUserProfile(editedData);
-        }
+        updateUserProfile(editedData);
         setEditableField(null);
     };
 
