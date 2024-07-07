@@ -1,18 +1,20 @@
-import React, {useState, useContext} from 'react';
+import React, {useState, useContext, useEffect} from 'react';
 import {UserContext} from '../../UserContext';
 import Input from '../Forms/Input';
 import Button from '../Forms/Button';
 import styles from './UserProfile.module.css';
 import {GET_CEP, POST_CHANGE_PASSWORD_ON_APP} from "../../apiService";
 import useFetch from "../../Hooks/useFetch";
-import formUse from '../../Hooks/formUse';
+import formUse from "../../Hooks/formUse";
 import Error from "../Helper/Error";
+import {formatCPF, formatPhone, formatCEP} from "../Helper/formatValues.jsx";
+import {validateNameUser, validateCEP, validatePhone, validateEmail} from '../Helper/validationValues.jsx';
 
 const UserProfile = () => {
-    const [error, setError] = useState('');
+    const [currentError, setCurrentError] = useState({});
     const {data, updateUserProfile} = useContext(UserContext);
     const [editableField, setEditableField] = useState(null);
-    const {data: dataCep, request: requestCep} = useFetch();
+    const {request: requestCep} = useFetch();
     const {request: requestChangepassword} = useFetch();
     const [editedData, setEditedData] = useState({...data});
     const [passwordError, setPasswordError] = useState('');
@@ -22,45 +24,107 @@ const UserProfile = () => {
         confirmNewPassword: '',
     });
 
-    const usuarioNome = formUse('firstAndLastName', null, editedData.usuario_nome);
-    const usuarioEmail = formUse('email', null, editedData.usuario_email);
-    const usuarioTelefone = formUse('phonenumber', '(99) 99999-9999', editedData.usuario_telefone);
-    const cep = formUse('cep', '99999-999', data.cep);
     const newPassword = formUse('password');
     const confirmNewPassword = formUse('confirmPassword', null, newPassword.value);
 
     const fetchAddress = async (cep) => {
-        try {
-            const {url, options} = GET_CEP(cep.replace('-', ''));
-            const response = await requestCep(url, options);
-            if (response && response.json) {
-                const {bairro, localidade, uf} = response.json;
-                setEditedData((prevData) => ({
-                    ...prevData,
-                    bairro,
-                    municipio: localidade,
-                    uf,
-                }));
-            }
-        } catch (error) {
-            console.error('Erro ao buscar o endereço:', error);
+        if (!validateCEP(cep)) return;
+
+        const {url, options} = GET_CEP(cep.replace('-', ''));
+        const response = await requestCep(url, options);
+
+        if (response && response.json) {
+            const {bairro, localidade, uf} = response.json;
+            const novo = {
+                ...editedData,
+                bairro: bairro,
+                municipio: localidade,
+                uf: uf || editedData.uf,
+            };
+            setEditedData(novo);
+        } else {
+            setCurrentError({
+                field: 'cep',
+                message: 'CEP não encontrado.'
+            });
+            setTimeout(() => {
+                setCurrentError({});
+            }, 3000);
         }
     };
 
+    useEffect(() => {
+        try {
+            if (validateCEP(editedData.cep)) {
+                fetchAddress(editedData.cep);
+            }
+        } catch (e) {
+
+        }
+    }, [editedData.cep]);
+
     const handleSaveChanges = async () => {
-        let validate = false;
-        setError("error");
         if (editableField === 'cep') {
-            validate = cep.validate();
-            if (!validate) {
-                setError(cep.error);
+            const isValid = validateCEP(editedData.cep);
+            if (!isValid) {
+                setCurrentError({
+                    field: editableField,
+                    message: 'Digite um CEP válido.'
+                });
+                setTimeout(() => {
+                    setCurrentError({});
+                }, 3000);
+                return;
             } else {
                 await fetchAddress(editedData.cep);
             }
         }
+        if (editableField === 'usuario_nome') {
+            const isValid = validateNameUser(editedData.usuario_nome);
+            if (!isValid) {
+                setCurrentError({
+                    field: editableField,
+                    message: 'Digite um nome e sobrenome válidos com no máximo 50 caracteres.'
+                });
+                setTimeout(() => {
+                    setCurrentError({});
+                }, 3000);
+                return;
+            }
+        }
 
-        updateUserProfile(editedData);
+        if (editableField === 'usuario_email') {
+            const isValid = validateEmail(editedData.usuario_email);
+            if (!isValid) {
+                setCurrentError({
+                    field: editableField,
+                    message: 'Digite um E-mail válido.'
+                });
+                setTimeout(() => {
+                    setCurrentError({});
+                }, 3000);
+                return;
+            }
+        }
+
+        if (editableField === 'usuario_telefone') {
+            const isValid = validatePhone(editedData.usuario_telefone);
+            if (!isValid) {
+                setCurrentError({
+                    field: editableField,
+                    message: 'Digite um telefone válido.'
+                });
+                setTimeout(() => {
+                    setCurrentError({});
+                }, 3000);
+                return;
+            }
+        }
+
+        const updatedProfile = {...data, ...editedData};
+        updateUserProfile(updatedProfile);
         setEditableField(null);
+        setEditedData(updatedProfile);
     };
 
     const handlePasswordChange = async () => {
@@ -79,7 +143,7 @@ const UserProfile = () => {
         const body = {
             new_password: newPassword.value,
             old_password: passwordData.currentPassword,
-            email: usuarioEmail.value,
+            email: data.usuario_email,
         };
 
         try {
@@ -107,13 +171,16 @@ const UserProfile = () => {
         return true;
     };
 
+    const handleEditField = (fieldName) => {
+        if (editableField && editableField !== fieldName) {
+            setEditedData({...data});
+        }
+        setEditableField(fieldName);
+    };
+
     const handleCancelEdit = () => {
         setEditedData({...data});
         setEditableField(null);
-    };
-
-    const handleEditField = (fieldName) => {
-        setEditableField(fieldName);
     };
 
     const handleChange = (e) => {
@@ -139,79 +206,168 @@ const UserProfile = () => {
         }
     };
 
-    const renderField = (label, name, value, editable) => {
-        const isEditable = editable && editableField === name;
-
-        return (
-            <div className={styles.fieldWrapper} key={name}>
-                <div className={styles.fieldHeader}>
-                    <span className={styles.label}>{label}:</span>
-                    {editable && !isEditable && (
-                        <button onClick={() => handleEditField(name)} className={styles.editButton}>
-                            Editar
-                        </button>
-                    )}
-                </div>
-                {isEditable ? (
-                    <div className={styles.editContainer}>
-                        <div className={styles.inputWrapper}>
-                            <Input
-                                name={name}
-                                value={editedData[name]}
-                                onChange={handleChange}
-                                className={styles.input}
-                            />
-                        </div>
-                        {error && <p>{error}</p>}
-                        <div className={styles.editActions}>
-                            <Button onClick={handleSaveChanges} className={styles.saveButton}>
-                                Salvar
-                            </Button>
-                            <Button onClick={handleCancelEdit} className={styles.cancelButton}>
-                                Cancelar
-                            </Button>
-                        </div>
-                    </div>
-                ) : (
-                    <p>{value}</p>
-                )}
-            </div>
-        );
-    };
-
     return (
         <div className={styles.profileContainer}>
             <div className={styles.personalInfo}>
                 <h2 className={styles.subtitle}>Informações Pessoais</h2>
-                {renderField('Nome', 'usuario_nome', data.usuario_nome, true)}
-                {renderField('E-mail', 'usuario_email', data.usuario_email, true)}
-                {renderField('Telefone', 'usuario_telefone', data.usuario_telefone, true)}
+
+                <div className={styles.fieldWrapper}>
+                    <div className={styles.fieldHeader}>
+                        <span className={styles.label}>Nome:</span>
+                        <button onClick={() => handleEditField('usuario_nome')} className={styles.editButton}>Editar
+                        </button>
+                    </div>
+                    {editableField === 'usuario_nome' ? (
+                        <div className={styles.editContainer}>
+                            <div className={styles.inputWrapper}>
+                                <Input
+                                    name="usuario_nome"
+                                    value={editedData.usuario_nome}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                />
+                            </div>
+                            <div className={styles.editActions}>
+                                <Button onClick={handleSaveChanges} className={styles.saveButton}>Salvar</Button>
+                                <Button onClick={handleCancelEdit} className={styles.cancelButton}>Cancelar</Button>
+                            </div>
+                            {currentError.field === 'usuario_nome' && <Error error={currentError.message}/>}
+                        </div>
+                    ) : (
+                        <p>{editedData.usuario_nome}</p>
+                    )}
+                </div>
+
+                <div className={styles.fieldWrapper}>
+                    <div className={styles.fieldHeader}>
+                        <span className={styles.label}>E-mail:</span>
+                        <button onClick={() => handleEditField('usuario_email')} className={styles.editButton}>Editar
+                        </button>
+                    </div>
+                    {editableField === 'usuario_email' ? (
+                        <div className={styles.editContainer}>
+                            <div className={styles.inputWrapper}>
+                                <Input
+                                    name="usuario_email"
+                                    value={editedData.usuario_email}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                />
+                            </div>
+                            <div className={styles.editActions}>
+                                <Button onClick={handleSaveChanges} className={styles.saveButton}>Salvar</Button>
+                                <Button onClick={handleCancelEdit} className={styles.cancelButton}>Cancelar</Button>
+                            </div>
+                            {currentError.field === 'usuario_email' && <Error error={currentError.message}/>}
+                        </div>
+                    ) : (
+                        <p>{editedData.usuario_email}</p>
+                    )}
+                </div>
+
+                <div className={styles.fieldWrapper}>
+                    <div className={styles.fieldHeader}>
+                        <span className={styles.label}>Telefone:</span>
+                        <button onClick={() => handleEditField('usuario_telefone')}
+                                className={styles.editButton}>Editar
+                        </button>
+                    </div>
+                    {editableField === 'usuario_telefone' ? (
+                        <div className={styles.editContainer}>
+                            <div className={styles.inputWrapper}>
+                                <Input
+                                    name="usuario_telefone"
+                                    value={editedData.usuario_telefone}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    mask={"(99) 99999-9999"}
+                                />
+                            </div>
+                            <div className={styles.editActions}>
+                                <Button onClick={handleSaveChanges} className={styles.saveButton}>Salvar</Button>
+                                <Button onClick={handleCancelEdit} className={styles.cancelButton}>Cancelar</Button>
+                            </div>
+                            {currentError.field === 'usuario_telefone' && <Error error={currentError.message}/>}
+                        </div>
+                    ) : (
+                        <p>{formatPhone(editedData.usuario_telefone)}</p>
+                    )}
+                </div>
+
                 <div className={styles.fieldWrapper}>
                     <div className={styles.fieldHeader}>
                         <span className={styles.label}>CPF:</span>
                     </div>
-                    <p>{data.usuario_documento}</p>
+                    <p>{formatCPF(editedData.usuario_documento)}</p>
                 </div>
+
                 <div className={styles.fieldWrapper}>
                     <div className={styles.fieldHeader}>
                         <span className={styles.label}>Data de Criação:</span>
                     </div>
-                    <p>{new Date(data.usuario_dh_criacao).toLocaleString()}</p>
+                    <p>{new Date(editedData.usuario_dh_criacao).toLocaleString()}</p>
                 </div>
+
                 <div className={styles.fieldWrapper}>
                     <div className={styles.fieldHeader}>
                         <span className={styles.label}>Aceite dos Termos:</span>
                     </div>
-                    <p>{data.usuario_aceite_termos ? 'Aceito' : 'Não Aceito'}</p>
+                    <p>{editedData.usuario_aceite_termos ? 'Aceito' : 'Não Aceito'}</p>
                 </div>
             </div>
+
             <div className={styles.addressInfo}>
                 <h2 className={styles.subtitle}>Informações de Endereço</h2>
-                {renderField('CEP', 'cep', editedData.cep, true)}
-                {renderField('Bairro', 'bairro', editedData.bairro, false)}
-                {renderField('Município', 'municipio', editedData.municipio, false)}
-                {renderField('UF', 'uf', editedData.uf, false)}
+
+                <div className={styles.fieldWrapper}>
+                    <div className={styles.fieldHeader}>
+                        <span className={styles.label}>CEP:</span>
+                        <button onClick={() => handleEditField('cep')} className={styles.editButton}>Editar</button>
+                    </div>
+                    {editableField === 'cep' ? (
+                        <div className={styles.editContainer}>
+                            <div className={styles.inputWrapper}>
+                                <Input
+                                    name="cep"
+                                    value={editedData.cep}
+                                    onChange={handleChange}
+                                    className={styles.input}
+                                    mask="99999-999"
+                                />
+                            </div>
+                            <div className={styles.editActions}>
+                                <Button onClick={handleSaveChanges} className={styles.saveButton}>Salvar</Button>
+                                <Button onClick={handleCancelEdit} className={styles.cancelButton}>Cancelar</Button>
+                            </div>
+                            {currentError.field === 'cep' && <Error error={currentError.message}/>}
+                        </div>
+                    ) : (
+                        <p>{formatCEP(editedData.cep)}</p>
+                    )}
+                </div>
+
+                <div className={styles.fieldWrapper}>
+                    <div className={styles.fieldHeader}>
+                        <span className={styles.label}>Bairro:</span>
+                    </div>
+                    <p>{editedData.bairro}</p>
+                </div>
+
+                <div className={styles.fieldWrapper}>
+                    <div className={styles.fieldHeader}>
+                        <span className={styles.label}>Município:</span>
+                    </div>
+                    <p>{editedData.municipio}</p>
+                </div>
+
+                <div className={styles.fieldWrapper}>
+                    <div className={styles.fieldHeader}>
+                        <span className={styles.label}>UF:</span>
+                    </div>
+                    <p>{editedData.uf}</p>
+                </div>
             </div>
+
             <div className={styles.passwordChange}>
                 <h2 className={styles.subtitle}>Troca de Senha</h2>
                 <Input

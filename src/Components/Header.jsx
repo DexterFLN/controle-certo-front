@@ -12,7 +12,6 @@ const Header = () => {
         const token = window.localStorage.getItem('token')
         if (token !== null) {
             const result = jwt_decode(window.localStorage.getItem('token'));
-            console.log(result)
             profile = result.authorities[0];
         }
     } catch (error) {
