@@ -6,6 +6,7 @@ import useFetch from '../../Hooks/useFetch';
 import Loading from '../Helper/Loading';
 import {POST_REQUEST_TOKEN_PASSWORD} from '../../apiService';
 import {useNavigate} from 'react-router-dom';
+import CustomToast from "../Helper/CustomToast.jsx";
 
 const LoginPasswordLost = () => {
         const username = formUse('cpf', '999.999.999-99');
@@ -44,6 +45,7 @@ const LoginPasswordLost = () => {
             setTimeout(() => {
                 setLoading(false);
                 navigate('/login');
+                CustomToast("E-mail para troca de senha enviado!", 'info', 3000)
             }, 3000);
         }
 
@@ -62,6 +64,7 @@ const LoginPasswordLost = () => {
                         <Button>Enviar E-mail</Button>
                     )}
                     {error && <p className="error">{error}</p>}
+
                 </form>
             </section>
         );

@@ -7,12 +7,14 @@ import Loading from '../Helper/Loading';
 import { POST_VALIDATE_TOKEN_PASSWORD } from '../../apiService';
 import Error from '../Helper/Error';
 import { useNavigate } from 'react-router-dom';
+import CustomToast from "../Helper/CustomToast.jsx";
 
 const LoginPasswordReset = () => {
+  const [loading, setLoading] = React.useState(false);
   const [token, setToken] = React.useState('');
   const password = formUse('password');
   const confirmPassword = formUse('confirmPassword', null, password.value);
-  const { status, loading, error, request } = useFetch();
+  const { status, error, request } = useFetch();
   const navigate = useNavigate();
 
   React.useEffect(() => {
@@ -24,6 +26,7 @@ const LoginPasswordReset = () => {
 
   async function handleSubmit(event) {
     event.preventDefault();
+    setLoading(true)
 
 
     if (password.validate() && confirmPassword.validate()) {
@@ -31,10 +34,13 @@ const LoginPasswordReset = () => {
           token,
           password.value,
       );
-      const { response } = await request(url, options);
-      if (response.ok) {
+      await request(url, options);
+
+      setTimeout(()=> {
+        setLoading(false)
         navigate('/login');
-      }
+        CustomToast('Sua senha foi alterada com sucesso!', 'success', 3000);
+      }, 2000)
     }
   }
 
