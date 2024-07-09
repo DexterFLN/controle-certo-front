@@ -57,7 +57,7 @@ const ExpenseUser = () => {
         return isValid;
     }
 
-    function handleSubmit(event) {
+    async function handleSubmit(event) {
         event.preventDefault();
 
         if (selectedOption === '') {
@@ -87,25 +87,23 @@ const ExpenseUser = () => {
             };
 
             const {url, options} = POST_EXPENSE_USER(body);
+            const response = await fetch(url, options);
 
-            const {response} = request(url, options).then(r => {
-                if (status && status >= 200 && status < 300) {
-                    expenseDescription.reset();
-                    expenseValue.reset();
-                    totalInstallments.reset();
-                    currentInstallment.reset();
-                    setSelectedOption('');
-                    setSelectedType('');
-                    setShowInfo('');
-                }
-            });
-
-            // console.log(response.json())
+            if (!response.ok) {
+                throw new Error('Erro ao salvar categoria.');
+            }
         } catch (e) {
             console.log(e)
         }
         setTimeout(() => {
             setLoading(false);
+            expenseDescription.reset();
+            expenseValue.reset();
+            totalInstallments.reset();
+            currentInstallment.reset();
+            setSelectedOption('');
+            setSelectedType('');
+            setShowInfo('');
             CustomToast('Despesa adicionada com sucesso!', 'success', 3000);
         }, 2000);
 

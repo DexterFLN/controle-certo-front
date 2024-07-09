@@ -10,6 +10,7 @@ import Error from "../Helper/Error";
 import {formatCPF, formatPhone, formatCEP} from "../Helper/formatValues.jsx";
 import {validateNameUser, validateCEP, validatePhone, validateEmail} from '../Helper/validationValues.jsx';
 import CustomToast from "../Helper/CustomToast.jsx";
+import TermsModal from '../Modal/TermsModal.jsx'
 
 const UserProfile = () => {
     const [currentError, setCurrentError] = useState({});
@@ -27,7 +28,16 @@ const UserProfile = () => {
 
     const newPassword = formUse('password');
     const confirmNewPassword = formUse('confirmPassword', null, newPassword.value);
-
+    const [isTermsModalVisible, setIsTermsModalVisible] = useState(false); // Estado para controlar a visibilidade do modal
+    const termsText = `
+O “Controle Certo” atenderá aos dispositivos da Lei Geral de Proteção de Dados (LGPD) – Lei nº 13.709/2018, da Lei nº 12.965/2014 (Marco Civil da Internet) e do Decreto nº 8.771, de 11/05/2016. O sistema não estará autorizado para uso por indivíduos com menos de 18 anos de idade completos.
+O sistema, por simplicidade e filosofia de negócio, solicitará as seguintes informações: nome, sobrenome, CPF, data de nascimento, telefone, e-mail, município e UF apenas para fins básicos de cadastro e acesso à conta Controle Certo. 
+Os dados pessoais coletados serão criptografados e armazenados em nossos servidores, protegidos por políticas de segurança, com asseguramento da privacidade, da autenticidade e da inviolabilidade das informações, conforme determina o Marco Civil da Internet. O armazenamento ocorrerá enquanto o usuário possuir uma conta ativa. Após o encerramento ou exclusão da conta, os dados serão excluídos de forma imediata.
+Será assegurado e garantido que todas as informações dos usuários não serão comercializadas ou divulgadas em nenhuma circunstância. Será seguido todos os protocolos de segurança recomendados.
+Em caso de qualquer incidente de segurança que resulte em vazamento de dados, tanto a Autoridade Nacional de Proteção de Dados (ANPD) quanto os usuários serão prontamente notificados.
+O responsável pela proteção de dados, o Data Protection Officer, estará disponível para contato por e-mail ou telefone para lidar com questões relacionadas aos dados. Ele também será encarregado de emitir comunicações, avisos, orientações e tomar medidas em resposta a comunicações da ANPD.
+A política de privacidade poderá ser revisada periodicamente para refletir alterações nas práticas de privacidade. Os usuários serão informados sobre quaisquer mudanças significativas.
+`;
     const fetchAddress = async (cep) => {
         if (!validateCEP(cep)) return;
 
@@ -313,7 +323,18 @@ const UserProfile = () => {
                     <div className={styles.fieldHeader}>
                         <span className={styles.label}>Aceite dos Termos:</span>
                     </div>
-                    <p>{editedData.usuario_aceite_termos ? 'Aceito' : 'Não Aceito'}</p>
+                    <div className={styles.termsContainer}>
+                        <p>{editedData.usuario_aceite_termos ? 'Aceito' : 'Não Aceito'}</p>
+                        <Button className={styles.editButton}
+                                onClick={() => setIsTermsModalVisible(true)}>
+                            Termos de Uso
+                        </Button>
+                    </div>
+                    <TermsModal
+                        show={isTermsModalVisible}
+                        termsText={termsText}
+                        onClose={() => setIsTermsModalVisible(false)}
+                    />
                 </div>
             </div>
 
