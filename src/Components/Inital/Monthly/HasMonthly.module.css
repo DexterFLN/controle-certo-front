@@ -55,3 +55,22 @@
     bottom: 20px;
     right: 20px;
 }
+
+@media (max-width: 40rem) {
+    .budgetContainer {
+        grid-template-columns: 1fr;
+        gap: 10px;
+    }
+
+    .expenseItems {
+        grid-column: 1;
+    }
+
+    .deleteBudgetButton {
+        position: relative;
+        bottom: 0;
+        right: 0;
+        margin-top: 10px;
+    }
+}
+

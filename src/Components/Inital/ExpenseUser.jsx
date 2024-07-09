@@ -8,6 +8,8 @@ import formUse from '../../Hooks/formUse';
 import Error from '../Helper/Error';
 import {FaQuestionCircle} from 'react-icons/fa';
 import Loading from "../Helper/Loading.jsx";
+import CustomToast from "../Helper/CustomToast.jsx";
+import 'react-toastify/dist/ReactToastify.css';
 
 const ExpenseUser = () => {
     const [categories, setCategories] = useState([]);
@@ -104,7 +106,9 @@ const ExpenseUser = () => {
         }
         setTimeout(() => {
             setLoading(false);
+            CustomToast('Despesa adicionada com sucesso!', 'success', 3000);
         }, 2000);
+
     }
 
     function handleChange(event) {

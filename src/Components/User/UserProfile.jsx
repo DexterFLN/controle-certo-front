@@ -9,6 +9,7 @@ import formUse from "../../Hooks/formUse";
 import Error from "../Helper/Error";
 import {formatCPF, formatPhone, formatCEP} from "../Helper/formatValues.jsx";
 import {validateNameUser, validateCEP, validatePhone, validateEmail} from '../Helper/validationValues.jsx';
+import CustomToast from "../Helper/CustomToast.jsx";
 
 const UserProfile = () => {
     const [currentError, setCurrentError] = useState({});
@@ -150,7 +151,7 @@ const UserProfile = () => {
             const {url, options} = POST_CHANGE_PASSWORD_ON_APP(body);
             const {response} = await requestChangepassword(url, options);
             if (response.ok) {
-                alert('Senha alterada!');
+                CustomToast('Senha alterada com sucesso!', 'success', 2000);
                 setPasswordData({
                     currentPassword: '',
                     newPassword: '',

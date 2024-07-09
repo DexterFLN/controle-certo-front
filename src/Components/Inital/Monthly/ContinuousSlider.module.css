@@ -292,7 +292,8 @@
     flex-direction: column;
     align-items: flex-start;
 }
-.copyLastBudget Button{
+
+.copyLastBudget Button {
     width: 200px;
     height: 30px;
     display: flex;
@@ -302,9 +303,85 @@
     font-size: 12px;
     line-height: 1.2;
 }
+
 .copyLastBudget span {
     margin: 10px;
     display: inline-block;
     font-size: 15px;
     font-style: italic;
+}
+
+/* Adicione este bloco ao seu arquivo CSS */
+
+@media (max-width: 40rem) {
+    .graph {
+        margin-top: 2rem;
+        gap: 10px;
+    }
+
+    .testando {
+        grid-template-columns: 1fr;
+        gap: 5px;
+    }
+
+    .frUmSlider {
+        grid-column: 1;
+    }
+
+    .categoriaTeste {
+        grid-column: 1;
+        grid-row: 2;
+        padding: 15px;
+    }
+
+    .monthlyValues {
+        grid-template-columns: 1fr;
+        padding: 10px;
+    }
+
+    .incomeMonthly {
+        grid-column: 1;
+        margin: 1.5rem;
+    }
+
+    .orcamento {
+        flex-direction: column;
+        gap: 5px;
+        margin-left: 0;
+    }
+
+    .categorySelector {
+        max-width: 100%;
+        margin-right: 0;
+    }
+
+    .buttonCategory {
+        width: 100%;
+    }
+
+    .containerButtonBudget {
+        margin-top: 30px;
+    }
+
+    .copyLastBudget Button {
+        width: 100%;
+        height: 30px;
+    }
+
+    .categorySelector {
+        width: 100%;
+        margin-right: 0;
+    }
+
+    .buttonCategory {
+        width: 100%;
+    }
+
+    .incomeAvailable, .incomeCompromised {
+        margin-bottom: 1rem;
+    }
+
+    .incomeAvailable .icon, .incomeCompromised .icon {
+        margin-right: 10px;
+    }
 }
