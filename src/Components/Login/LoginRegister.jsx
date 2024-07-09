@@ -11,6 +11,7 @@ import Search from '../../Assets/IconsHeader/search.svg?react';
 import styles from './LoginRegister.module.css';
 import {useNavigate} from 'react-router-dom';
 import TermsModal from '../Modal/TermsModal';
+import CustomToast from "../Helper/CustomToast.jsx";
 
 const LoginRegister = () => {
     const firstAndLastName = formUse('firstAndLastName');
@@ -116,6 +117,7 @@ A política de privacidade poderá ser revisada periodicamente para refletir alt
                     setLoadingUser(false);
                 }, 3000);
                 navigate('/login');
+                CustomToast("Seu perfil foi criado, agora utilize o CPF e senha informada para realizar o login!", 'info', 5000);
             } else {
                 setTimeout(() => {
                     setLoadingUser(false);
@@ -214,8 +216,8 @@ A política de privacidade poderá ser revisada periodicamente para refletir alt
                             Termos de Uso
                         </button>
                     </label>
-                    {acceptTerms.error && <p className={styles.error}>{acceptTerms.error}</p>}
                 </div>
+                {acceptTerms.error && <Error error={acceptTerms.error}/>}
                 {loadingUser || loadingCep ? (
                     <>
                         <Loading/>

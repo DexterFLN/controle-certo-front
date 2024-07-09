@@ -51,7 +51,7 @@ const LoginPasswordLost = () => {
             <section>
                 <h1 className="title">Esqueceu a senha?</h1>
                 <form onSubmit={handleSubmit}>
-                    <Input label="Usuário" type="text" name="username" {...username} />
+                    <Input label="CPF" type="text" name="username" {...username} />
                     <Input label="E-mail" type="email" name="email" {...email} />
                     {loading ? (
                         <>

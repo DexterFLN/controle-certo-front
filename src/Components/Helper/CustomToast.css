@@ -1,0 +1,34 @@
+.custom-toast {
+    background-color: #ffffff !important;
+    color: #333 !important;
+    border-radius: 8px !important;
+    font-size: 1em !important;
+    padding: 25px !important;
+    margin-left: 6px !important;
+}
+
+.custom-toast-body {
+    margin: 0 !important;
+    font-weight: bold !important;
+}
+
+.custom-toast-progress {
+    background: linear-gradient(to right, #4caf50, #66bb6a) !important;
+}
+
+.toast-success .custom-toast-progress {
+    background: linear-gradient(to right, #4caf50, #66bb6a) !important;
+}
+
+.toast-error .custom-toast-progress {
+    background: linear-gradient(to right, #f44336, #e57373) !important;
+}
+
+.toast-warning .custom-toast-progress {
+    background: linear-gradient(to right, #ffeb3b, #fff176) !important;
+}
+
+.toast-info .custom-toast-progress {
+    background: linear-gradient(to right, #2196f3, #64b5f6) !important;
+}
+

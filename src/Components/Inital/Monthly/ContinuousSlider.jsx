@@ -23,6 +23,7 @@ import {GET_COLUMNS_CATEGORY} from '../../Graph/TableColumns';
 import Modal from '../../Modal/Modal';
 import Loading from "../../Helper/Loading";
 import formUse from '../../../Hooks/formUse';
+import CustomToast from "../../Helper/CustomToast.jsx";
 
 const ContinuousSlider = ({formattedDate}) => {
     const [categories, setCategories] = useState([]);
@@ -47,12 +48,21 @@ const ContinuousSlider = ({formattedDate}) => {
     const [lastBudgetText, setLastBudgetText] = useState('');
     const categoryName = formUse('categoryName');
     const categoryDescription = formUse('categoryDescription');
+    const [errorCategory, setErrorCategory] = useState('')
 
     async function requestLastBudgetteste(url, options) {
         const response = await fetch(url, options);
         const json = await response.json();
         return {response, json};
     }
+
+    useEffect(() => {
+        const showToast = localStorage.getItem('showToastBudgetInfo');
+        if (showToast === 'true') {
+            CustomToast("Orçamento excluído! Aproveite e crie um novo para continuar seu planejamento.", 'info', 5000);
+            localStorage.removeItem('showToastBudgetInfo');
+        }
+    }, []);
 
     const handleGetLastBudget = async () => {
         const {url, options} = GET_LAST_MONTHLY_BUDGET();
@@ -198,19 +208,26 @@ const ContinuousSlider = ({formattedDate}) => {
 
         const newCategory = {
             nome_categoria: categoryName.value,
-            descricao_categoria: categoryDescription.value || '' // Deixa a descrição vazia se não for preenchida
+            descricao_categoria: categoryDescription.value || ''
         };
 
         const {url, options} = POST_CATEGORY_USER(newCategory);
         const {response, json} = await requestCategoryPost(url, options);
-
+        console.log(response.body)
         if (response.ok) {
             setCategories(prevCategories => [...prevCategories, json]);
             categoryName.reset();
             categoryDescription.reset();
+        } else if (response.status === 400) {
+            setErrorCategory("Categoria já existente. Escolha outro nome.")
         } else {
             console.error('Erro ao adicionar a categoria:', response.statusText);
+            setErrorCategory("Não foi possivel criar a categoria, tente novamente mais tarde!.")
         }
+
+        setTimeout(() => {
+            setErrorCategory('')
+        }, 3000)
     };
 
     async function handleSubmit(event) {
@@ -263,6 +280,7 @@ const ContinuousSlider = ({formattedDate}) => {
         if (response.status === 204) {
             setTimeout(() => {
                 setLoadingCreateBudget(false);
+                localStorage.setItem('showToastBudget', 'true');
                 window.location.reload();
             }, 3000)
         }
@@ -423,7 +441,8 @@ const ContinuousSlider = ({formattedDate}) => {
                                         mensal</Button>
                                 </div>
                                 {exibirMensagemErro && valueAvailable < 0 && (
-                                    <Error error="Para continuar com seu planejamento mensal, a renda disponível não pode ser negativa. Por favor, ajuste os valores."/>)}
+                                    <Error
+                                        error="Para continuar com seu planejamento mensal, a renda disponível não pode ser negativa. Por favor, ajuste os valores."/>)}
                                 {errorSliderValues &&
                                     <Error
                                         error=" Por favor, adicione pelo menos uma categoria com um valor maior que zero para continuar com seu planejamento mensal."/>}
@@ -454,6 +473,7 @@ const ContinuousSlider = ({formattedDate}) => {
                         <Button variant="contained" color="primary" onClick={addCategory}>
                             Adicionar Categoria
                         </Button>
+                        {errorCategory && <Error error={errorCategory}/>}
                         <DataTable columns={GET_COLUMNS_CATEGORY()} data={categories} deleteRow={handleDeleteClick}
                                    rowIdAccessor="id_categoria" pdfHeaderTitle="Lista de categorias"/>
                     </div>

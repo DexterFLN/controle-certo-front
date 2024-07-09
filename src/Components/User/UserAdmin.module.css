@@ -7,6 +7,7 @@
     display: flex;
     gap: 20px;
     align-items: center;
+    flex-wrap: wrap;
 }
 
 .filterField {
@@ -34,12 +35,16 @@
 .input:hover {
     outline: none;
     border-color: #fb1;
-    background:white;
+    background: white;
     box-shadow: 0 0 0 3px #fea;
 }
 
+.filterActions {
+    display: flex;
+    gap: 10px;
+}
+
 .filterButton {
-    margin-top: 25px;
     justify-content: center;
     background-color: #fb1;
     color: #764701;
@@ -75,15 +80,14 @@
 .filterButton:disabled {
     opacity: 0.5;
     cursor: wait;
-
 }
-
 
 .subtitle {
     font-family: var(--type-second);
     line-height: 1;
     font-size: 2rem;
 }
+
 .subtitle::after {
     content: '';
     display: block;
@@ -93,3 +97,25 @@
     border-radius: 0.2rem;
 }
 
+.tableContainer {
+    overflow-x: auto;
+}
+
+@media (max-width: 40rem) {
+    .filters {
+        flex-direction: column;
+    }
+
+    .filterField {
+        width: 100%;
+    }
+
+    .filterActions {
+        flex-direction: column;
+        width: 100%;
+    }
+
+    .filterButton {
+        width: 100%;
+    }
+}

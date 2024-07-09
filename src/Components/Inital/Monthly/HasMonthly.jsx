@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import GraphTemplate from '../../Graph/GraphTemplate.jsx';
 import styles from './HasMonthly.module.css';
 import Button from "../../Forms/Button.jsx";
@@ -7,13 +7,21 @@ import useFetch from "../../../Hooks/useFetch.jsx";
 import Error from '../../Helper/Error.jsx'
 import Loading from '../../Helper/Loading.jsx'
 import Modal from "../../Modal/Modal.jsx";
-
+import CustomToast  from "../../Helper/CustomToast.jsx";
 const HasMonthly = ({body}) => {
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
     const [monthlyBudgetIdToDelete, setMonthlyBudgetIdToDelete] = useState(null);
     const {error, request} = useFetch();
     const [isLoading, setIsLoading] = useState(false);
+
+    useEffect(() => {
+        const showToast = localStorage.getItem('showToastBudget');
+        if (showToast === 'true') {
+            CustomToast('Orçamento adicionado com sucesso!', 'success', 4000);
+            localStorage.removeItem('showToastBudget');
+        }
+    }, []);
 
     const handleDeleteClick = () => {
         const id = body.id_orcamento ? body.id_orcamento : null;
@@ -36,7 +44,7 @@ const HasMonthly = ({body}) => {
             setTimeout(() => {
                 setIsLoading(false);
                 window.location.reload();
-            }, 3000);
+            }, 2000);
         }
     };
 
@@ -47,6 +55,8 @@ const HasMonthly = ({body}) => {
             await request(url, options);
         } catch (error) {
             console.error('Error deleting the row:', error);
+        }finally {
+            localStorage.setItem('showToastBudgetInfo', 'true');
         }
     };
 

@@ -29,6 +29,10 @@ export function GET_COLUMNS_USER_ADMIN_ON_APP() {
             {
                 Header: 'Criação',
                 accessor: 'usuario_dh_criacao'
+            },
+            {
+                Header: 'Exclusão',
+                accessor: 'usuario_dh_exclusao'
             }
         ],
         []
